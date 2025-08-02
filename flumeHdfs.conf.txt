@@ -1,0 +1,25 @@
+## Define the agent name
+agent1.sources = src1
+agent1.sinks = sink1
+agent1.channels = ch1
+
+# Source configuration
+agent1.sources.src1.type = exec
+agent1.sources.src1.command = tail -F /home/bigdata/train_booking.log
+agent1.sources.src1.channels = ch1
+
+# Channel configuration
+agent1.channels.ch1.type = memory
+agent1.channels.ch1.capacity = 1000
+agent1.channels.ch1.transactionCapacity = 100
+
+# Sink configuration
+agent1.sinks.sink1.type = hdfs
+agent1.sinks.sink1.hdfs.path = hdfs://localhost:9000/flume/train_output
+agent1.sinks.sink1.hdfs.fileType = DataStream
+agent1.sinks.sink1.hdfs.writeFormat = Text
+agent1.sinks.sink1.hdfs.batchSize = 100
+agent1.sinks.sink1.hdfs.rollSize = 0
+agent1.sinks.sink1.hdfs.rollCount = 10000
+agent1.sinks.sink1.hdfs.rollInterval = 60
+agent1.sinks.sink1.channel = ch1
